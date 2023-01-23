@@ -1,7 +1,8 @@
 Installing PyTorch -> Probleme da Python 3.11 nicht unterstützt wird. Esm wird Python 3.7 verwendet
 
 
-
+Npcap -> Tool für windows um Netzwerkpakete zu holen
+scapy verwendet npcap -> mit scapy muss wenig code geschrieben werden
 
 
 
