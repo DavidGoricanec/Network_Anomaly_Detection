@@ -5,7 +5,7 @@ import binascii
 print('Starting network_sniff-py to collect data')
 
 s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.htons(0x0800))
-#s.bind('192.168.50.1')
+# s.bind('192.168.50.1')
 
 while True:
     packet = s.recvfrom(2048)

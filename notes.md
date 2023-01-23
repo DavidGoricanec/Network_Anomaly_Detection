@@ -1,4 +1,4 @@
-Installing PyTorch -> Probleme da Python 3.11 nicht unterstützt wird. 
+Installing PyTorch -> Probleme da Python 3.11 nicht unterstützt wird. Esm wird Python 3.7 verwendet
 
 
 
