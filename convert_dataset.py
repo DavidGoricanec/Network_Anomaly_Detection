@@ -25,17 +25,25 @@ categorical_columns=['protocol_type', 'service', 'flag','class']
 df_train_categorical_values = df_train[categorical_columns]
 testdf_categorical_values = df_test[categorical_columns]
 
-print(df_train_categorical_values.head())
-
 df_train_categorical_values_enc=df_train_categorical_values.apply(LabelEncoder().fit_transform)
-
-print(df_train_categorical_values.head())
-print(df_train_categorical_values_enc.head())
-
-# test set
 testdf_categorical_values_enc=testdf_categorical_values.apply(LabelEncoder().fit_transform)
 
-print(type(testdf_categorical_values_enc))
+print('Train Conversion')
+print('-------------------------')
+print(df_train_categorical_values.head())
+print('-------------------------')
+print(df_train_categorical_values_enc.head())
+print('-------------------------')
 
-df_train.to_csv('train_enc.csv')
-df_test.to_csv('test_enc.csv')
+print('Test Conversion')
+print('-------------------------')
+print(testdf_categorical_values.head())
+print('-------------------------')
+print(testdf_categorical_values_enc.head())
+print('-------------------------')
+
+
+#print(type(testdf_categorical_values_enc))
+
+df_train_categorical_values.to_csv('train_enc.csv', index=False)
+testdf_categorical_values_enc.to_csv('test_enc.csv', index=False)
