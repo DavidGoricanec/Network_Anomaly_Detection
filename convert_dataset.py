@@ -20,30 +20,30 @@ df_train = pd.read_csv(trainfile_path,header=None, names = col_names)
 df_test = pd.read_csv(testfile_path, header=None, names = col_names)
 
 
-categorical_columns=['protocol_type', 'service', 'flag','class']
+text_columns=['protocol_type', 'service', 'flag','class']
 
-df_train_categorical_values = df_train[categorical_columns]
-testdf_categorical_values = df_test[categorical_columns]
+df_train_text_values = df_train[text_columns]
+df_test_text_values = df_test[text_columns]
 
-df_train_categorical_values_enc=df_train_categorical_values.apply(LabelEncoder().fit_transform)
-testdf_categorical_values_enc=testdf_categorical_values.apply(LabelEncoder().fit_transform)
+df_train_text_values_enc=df_train_text_values.apply(LabelEncoder().fit_transform)
+df_test_text_values_enc=df_test_text_values.apply(LabelEncoder().fit_transform)
 
 print('Train Conversion')
 print('-------------------------')
-print(df_train_categorical_values.head())
+print(df_train_text_values.head())
 print('-------------------------')
-print(df_train_categorical_values_enc.head())
+print(df_train_text_values_enc.head())
 print('-------------------------')
 
 print('Test Conversion')
 print('-------------------------')
-print(testdf_categorical_values.head())
+print(df_test_text_values.head())
 print('-------------------------')
-print(testdf_categorical_values_enc.head())
+print(df_test_text_values_enc.head())
 print('-------------------------')
 
 
-#print(type(testdf_categorical_values_enc))
+#print(type(df_test_text_values_enc))
 
-df_train_categorical_values.to_csv('train_enc.csv', index=False)
-testdf_categorical_values_enc.to_csv('test_enc.csv', index=False)
+df_train_text_values_enc.to_csv('train_enc.csv', index=False)
+df_test_text_values_enc.to_csv('test_enc.csv', index=False)
