@@ -16,3 +16,7 @@ https://betterprogramming.pub/building-a-packet-sniffing-tool-with-python-58ea5d
 https://www.binarytides.com/python-packet-sniffer-code-linux/
 
 https://towardsdatascience.com/categorical-encoding-using-label-encoding-and-one-hot-encoder-911ef77fb5bd
+
+https://www.gkbrk.com/2016/05/hotel-music/
+
+https://github.com/Mamcose/NSL-KDD-Network-Intrusion-Detection/blob/master/NID.ipynb

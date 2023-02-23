@@ -19,8 +19,13 @@ col_names = ["duration", "protocol_type", "service", "flag", "src_bytes", "dst_b
 df_train = pd.read_csv(trainfile_path,header=None, names = col_names)
 df_test = pd.read_csv(testfile_path, header=None, names = col_names)
 
+#rename class
+df_train = df_train.rename(columns={"class": "class_"})
+df_test = df_test.rename(columns={"class": "class_"})
 
-text_columns=['protocol_type', 'service', 'flag','class']
+
+
+text_columns=['protocol_type', 'service', 'flag','class_']
 
 df_train_text_values = df_train[text_columns]
 df_test_text_values = df_test[text_columns]
@@ -41,6 +46,52 @@ print(df_test_text_values.head())
 print('-------------------------')
 print(df_test_text_values_enc.head())
 print('-------------------------')
+
+
+print('One Hot Encoding')
+#One Hot Encoding
+enc = OneHotEncoder(categories='auto')
+
+#Colum Headers
+protocol=sorted(df_train.protocol_type.unique())
+protocol_header=['Protocol_' + x for x in protocol]
+
+service=sorted(df_train.service.unique())
+service_header=['serice_' + x for x in service]
+
+flag=sorted(df_train.flag.unique())
+flag_header=['flag_' + x for x in flag]
+
+class_=sorted(df_train.class_.unique())
+class_header=['class_' + x for x in class_]
+#print(flag_header)
+#print(protocol_header)
+#print(service_header)
+
+colum_headers_train_enc = protocol_header + service_header + flag_header + class_header
+
+service_test_header=sorted(df_test.service.unique())
+service_header_test =['serice_' + x for x in service_test_header]
+
+colum_headers_test_enc = protocol_header + service_header_test + flag_header + class_header
+
+#train
+df_train_text_values_encenc = enc.fit_transform(df_train_text_values_enc)
+df_cat_data = pd.DataFrame(df_train_text_values_encenc.toarray(),columns=colum_headers_train_enc)
+
+#test
+df_test_text_values_encenc = enc.fit_transform(df_test_text_values_enc)
+testdf_cat_data = pd.DataFrame(df_test_text_values_encenc.toarray(),columns=colum_headers_test_enc)
+
+print('-----------------------')
+print(df_cat_data.head())
+print(type(df_cat_data))
+print('-----------------------')
+#print('-----------------------')
+#print(df_train_text_values_encenc)
+#print(type(df_train_text_values_encenc))
+#print('-----------------------')
+     
 
 
 #print(type(df_test_text_values_enc))
