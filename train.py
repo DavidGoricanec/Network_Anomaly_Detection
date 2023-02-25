@@ -1,9 +1,9 @@
 import torch
 import torch.nn as nn
+import torch.optim as optim
 import csv
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
-import torch.optim as optim
 import tqdm
 
 #train pytorch
