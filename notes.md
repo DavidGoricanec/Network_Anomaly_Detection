@@ -20,3 +20,5 @@ https://towardsdatascience.com/categorical-encoding-using-label-encoding-and-one
 https://www.gkbrk.com/2016/05/hotel-music/
 
 https://github.com/Mamcose/NSL-KDD-Network-Intrusion-Detection/blob/master/NID.ipynb
+
+https://machinelearningmastery.com/building-a-binary-classification-model-in-pytorch/
