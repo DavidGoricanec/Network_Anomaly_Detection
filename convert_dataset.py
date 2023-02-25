@@ -23,8 +23,6 @@ df_test = pd.read_csv(testfile_path, header=None, names = col_names)
 df_train = df_train.rename(columns={"class": "class_"})
 df_test = df_test.rename(columns={"class": "class_"})
 
-
-
 text_columns=['protocol_type', 'service', 'flag','class_']
 
 df_train_text_values = df_train[text_columns]
@@ -57,7 +55,7 @@ protocol=sorted(df_train.protocol_type.unique())
 protocol_header=['Protocol_' + x for x in protocol]
 
 service=sorted(df_train.service.unique())
-service_header=['serice_' + x for x in service]
+service_header=['service_' + x for x in service]
 
 flag=sorted(df_train.flag.unique())
 flag_header=['flag_' + x for x in flag]
@@ -71,7 +69,7 @@ class_header=['class_' + x for x in class_]
 colum_headers_train_enc = protocol_header + service_header + flag_header + class_header
 
 service_test_header=sorted(df_test.service.unique())
-service_header_test =['serice_' + x for x in service_test_header]
+service_header_test =['service_' + x for x in service_test_header]
 
 colum_headers_test_enc = protocol_header + service_header_test + flag_header + class_header
 
@@ -92,9 +90,25 @@ print('-----------------------')
 #print(type(df_train_text_values_encenc))
 #print('-----------------------')
      
+#remove differences
+list_service_train=df_train['service'].tolist()
+list_service_test= df_test['service'].tolist()
+diff=list(set(list_service_train) - set(list_service_test))
+for col in ['service_' + x for x in diff]:
+    testdf_cat_data[col] = 0
+
+#concat the dataframes
+final_df=df_train.join(df_cat_data)
+final_df_test=df_test.join(testdf_cat_data)
+
+#remove text columns
+for chr in text_columns:
+    #print(chr)
+    final_df.drop(chr, axis=1, inplace=True)
+    final_df_test.drop(chr, axis=1, inplace=True)
 
 
-#print(type(df_test_text_values_enc))
+#print(final_df.head)
 
-df_train_text_values_enc.to_csv('train_enc.csv', index=False)
-df_test_text_values_enc.to_csv('test_enc.csv', index=False)
+final_df.to_csv('train_enc.csv', index=False)
+final_df_test.to_csv('test_enc.csv', index=False)
