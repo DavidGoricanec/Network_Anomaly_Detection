@@ -78,8 +78,8 @@ df_train_text_values_encenc = enc.fit_transform(df_train_text_values_enc)
 df_cat_data = pd.DataFrame(df_train_text_values_encenc.toarray(),columns=colum_headers_train_enc)
 
 #test
-df_test_text_values_encenc = enc.fit_transform(df_test_text_values_enc)
-testdf_cat_data = pd.DataFrame(df_test_text_values_encenc.toarray(),columns=colum_headers_test_enc)
+#df_test_text_values_encenc = enc.fit_transform(df_test_text_values_enc)
+#testdf_cat_data = pd.DataFrame(df_test_text_values_encenc.toarray(),columns=colum_headers_test_enc)
 
 print('-----------------------')
 print(df_cat_data.head())
@@ -92,20 +92,20 @@ print('-----------------------')
      
 #remove differences
 list_service_train=df_train['service'].tolist()
-list_service_test= df_test['service'].tolist()
-diff=list(set(list_service_train) - set(list_service_test))
-for col in ['service_' + x for x in diff]:
-    testdf_cat_data[col] = 0
+#list_service_test= df_test['service'].tolist()
+#diff=list(set(list_service_train) - set(list_service_test))
+#for col in ['service_' + x for x in diff]:
+ #   testdf_cat_data[col] = 0
 
 #concat the dataframes
 final_df=df_train.join(df_cat_data)
-final_df_test=df_test.join(testdf_cat_data)
+#final_df_test=df_test.join(testdf_cat_data)
 
 #remove text columns
 for chr in text_columns:
     #print(chr)
     final_df.drop(chr, axis=1, inplace=True)
-    final_df_test.drop(chr, axis=1, inplace=True)
+ #   final_df_test.drop(chr, axis=1, inplace=True)
 
 final_col_names = ["duration", "src_bytes", "dst_bytes", "land", "wrong_fragment",
              "urgent", "hot", "num_failed_logins", "logged_in", "num_compromised", "root_shell", "su_attempted", "num_root",
@@ -127,4 +127,4 @@ final_col_names = ["duration", "src_bytes", "dst_bytes", "land", "wrong_fragment
 
 final_df = final_df[final_col_names]
 final_df.to_csv('train_enc.csv', index=False)
-final_df_test.to_csv('test_enc.csv', index=False)
+#final_df_test.to_csv('test_enc.csv', index=False)
