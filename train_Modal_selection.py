@@ -9,6 +9,8 @@ import tqdm
 import copy
 import numpy as np
 import matplotlib.pyplot as plt
+from classes.Deep import Deep
+from classes.Wide import Wide 
 
 #train pytorch
 
@@ -50,40 +52,7 @@ print(y);
 x = torch.tensor(x.values, dtype=torch.float32)
 y = torch.tensor(y, dtype=torch.float32).reshape(-1, 1)
 
- 
-# Define two models
-class Wide(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.hidden = nn.Linear(col_length, col_length*3)
-        self.relu = nn.ReLU()
-        self.output = nn.Linear(col_length*3, 1)
-        self.sigmoid = nn.Sigmoid()
- 
-    def forward(self, x):
-        x = self.relu(self.hidden(x))
-        x = self.sigmoid(self.output(x))
-        return x
- 
-class Deep(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.layer1 = nn.Linear(col_length, col_length)
-        self.act1 = nn.ReLU()
-        self.layer2 = nn.Linear(col_length, col_length)
-        self.act2 = nn.ReLU()
-        self.layer3 = nn.Linear(col_length, col_length)
-        self.act3 = nn.ReLU()
-        self.output = nn.Linear(col_length, 1)
-        self.sigmoid = nn.Sigmoid()
- 
-    def forward(self, x):
-        x = self.act1(self.layer1(x))
-        x = self.act2(self.layer2(x))
-        x = self.act3(self.layer3(x))
-        x = self.sigmoid(self.output(x))
-        return x
- 
+
 # Compare model sizes
 model1 = Wide()
 model2 = Deep()

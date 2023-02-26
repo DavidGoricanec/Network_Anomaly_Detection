@@ -9,10 +9,13 @@ import tqdm
 import copy
 import numpy as np
 import matplotlib.pyplot as plt
+from scapy.all import *
+from classes.Deep import Deep
 
 #train pytorch
 
 trainfile_path = './Data/train_enc.csv'
+model_path = './Data/model.pth'
 
 col_names = ["duration", "src_bytes", "dst_bytes", "land", "wrong_fragment",
              "urgent", "hot", "num_failed_logins", "logged_in", "num_compromised", "root_shell", "su_attempted", "num_root",
@@ -47,25 +50,6 @@ y = encoder.transform(y)
 
 x = torch.tensor(x.values, dtype=torch.float32)
 y = torch.tensor(y, dtype=torch.float32).reshape(-1, 1)
-
-class Deep(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.layer1 = nn.Linear(col_length, col_length)
-        self.act1 = nn.ReLU()
-        self.layer2 = nn.Linear(col_length, col_length)
-        self.act2 = nn.ReLU()
-        self.layer3 = nn.Linear(col_length, col_length)
-        self.act3 = nn.ReLU()
-        self.output = nn.Linear(col_length, 1)
-        self.sigmoid = nn.Sigmoid()
- 
-    def forward(self, x):
-        x = self.act1(self.layer1(x))
-        x = self.act2(self.layer2(x))
-        x = self.act3(self.layer3(x))
-        x = self.sigmoid(self.output(x))
-        return x
 
 model = Deep()
 
@@ -119,13 +103,9 @@ def model_train(model, X_train, y_train, X_val, y_val):
 # train-test split: Hold out the test set for final model evaluation
 X_train, X_test, y_train, y_test = train_test_split(x, y, train_size=0.99, shuffle=True)
 
+print("Starting training")
 acc = model_train(model, X_train, y_train, X_test, y_test)
-print(f"Final model accuracy: {acc*100:.2f}%")
+print(f"Training over! Final model accuracy: {acc*100:.2f}%")
 
-model.eval()
-with torch.no_grad():
-    # Test out inference with 5 samples
-    for i in range(5):
-        y_pred = model(X_test[i:i+1])
-        y_pred = (y_pred > threshold).float() # 0.0 or 1.0
-        print(f"{X_test[i].numpy()} -> {y_pred[0].numpy()} (expected {y_test[i].numpy()})")
+torch.save(model.state_dict(), model_path)
+print("Pytorch Model Saved!")
