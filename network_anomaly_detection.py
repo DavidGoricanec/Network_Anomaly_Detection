@@ -18,7 +18,6 @@ def default_df():
     return pd.DataFrame(data)
 
 def handle_packet(packet, my_model):
-    # Process the packet payload using my_param here
     print(dir(packet))
     data = default_df()
     x_test = data.iloc[:, 0:col_length]

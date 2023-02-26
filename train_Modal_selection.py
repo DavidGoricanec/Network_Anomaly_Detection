@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import roc_curve
 from sklearn.model_selection import StratifiedKFold, train_test_split
 import pandas as pd
 import tqdm
@@ -137,12 +136,3 @@ with torch.no_grad():
         y_pred = model(X_test[i:i+1])
         y_pred = (y_pred > threshold).float() # 0.0 or 1.0
         print(f"{X_test[i].numpy()} -> {y_pred[0].numpy()} (expected {y_test[i].numpy()})")
- 
-    # Plot the ROC curve
-    y_pred = model(X_test)
-    fpr, tpr, thresholds = roc_curve(y_test, y_pred)
-    plt.plot(fpr, tpr) # ROC curve = TPR vs FPR
-    plt.title("Receiver Operating Characteristics")
-    plt.xlabel("False Positive Rate")
-    plt.ylabel("True Positive Rate")
-    plt.show()
