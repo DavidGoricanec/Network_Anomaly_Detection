@@ -3,6 +3,7 @@ import csv
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder,OneHotEncoder
+import json
 
 
 trainfile_path = './Base_Dataset/KDDTest_no_headers.csv'
@@ -16,6 +17,8 @@ col_names = ["duration", "protocol_type", "service", "flag", "src_bytes", "dst_b
              "dst_host_diff_srv_rate", "dst_host_same_src_port_rate", "dst_host_srv_diff_host_rate", "dst_host_serror_rate", 
              "dst_host_srv_serror_rate", "dst_host_rerror_rate", "dst_host_srv_rerror_rate", "class"]
 
+le = LabelEncoder()
+
 df_train = pd.read_csv(trainfile_path,header=None, names = col_names)
 df_test = pd.read_csv(testfile_path, header=None, names = col_names)
 
@@ -28,22 +31,16 @@ text_columns=['protocol_type', 'service', 'flag']
 df_train_text_values = df_train[text_columns]
 df_test_text_values = df_test[text_columns]
 
-df_train_text_values_enc=df_train_text_values.apply(LabelEncoder().fit_transform)
-df_test_text_values_enc=df_test_text_values.apply(LabelEncoder().fit_transform)
+df_train_text_values_enc = df_train_text_values
+le_name_mapping = {}
+for col in text_columns:
+    df_train_text_values_enc[col]=le.fit_transform(df_train_text_values[col])
+    le_name_mapping[col] = dict(zip(le.classes_, le.transform(le.classes_)))
 
-print('Train Conversion')
-print('-------------------------')
-print(df_train_text_values.head())
-print('-------------------------')
-print(df_train_text_values_enc.head())
-print('-------------------------')
+with open('./Data/label_encode_values.txt', 'w') as data: 
+      data.write(str(le_name_mapping))
 
-print('Test Conversion')
-print('-------------------------')
-print(df_test_text_values.head())
-print('-------------------------')
-print(df_test_text_values_enc.head())
-print('-------------------------')
+#df_test_text_values_enc=df_test_text_values.apply(le.fit_transform)
 
 
 print('One Hot Encoding')
@@ -62,18 +59,15 @@ flag_header=['flag_' + x for x in flag]
 
 #class_=sorted(df_train.class_.unique())
 #class_header=['class_' + x for x in class_]
-#print(flag_header)
-#print(protocol_header)
-#print(service_header)
 
 colum_headers_train_enc = protocol_header + service_header + flag_header #+ class_header
 
-service_test_header=sorted(df_test.service.unique())
-service_header_test =['service_' + x for x in service_test_header]
+#service_test_header=sorted(df_test.service.unique())
+#service_header_test =['service_' + x for x in service_test_header]
 
-colum_headers_test_enc = protocol_header + service_header_test + flag_header #+ class_header
+#colum_headers_test_enc = protocol_header + service_header_test + flag_header #+ class_header
 
-#train
+
 df_train_text_values_encenc = enc.fit_transform(df_train_text_values_enc)
 df_cat_data = pd.DataFrame(df_train_text_values_encenc.toarray(),columns=colum_headers_train_enc)
 
@@ -81,15 +75,6 @@ df_cat_data = pd.DataFrame(df_train_text_values_encenc.toarray(),columns=colum_h
 #df_test_text_values_encenc = enc.fit_transform(df_test_text_values_enc)
 #testdf_cat_data = pd.DataFrame(df_test_text_values_encenc.toarray(),columns=colum_headers_test_enc)
 
-print('-----------------------')
-print(df_cat_data.head())
-print(type(df_cat_data))
-print('-----------------------')
-#print('-----------------------')
-#print(df_train_text_values_encenc)
-#print(type(df_train_text_values_encenc))
-#print('-----------------------')
-     
 #remove differences
 list_service_train=df_train['service'].tolist()
 #list_service_test= df_test['service'].tolist()
@@ -103,7 +88,6 @@ final_df=df_train.join(df_cat_data)
 
 #remove text columns
 for chr in text_columns:
-    #print(chr)
     final_df.drop(chr, axis=1, inplace=True)
  #   final_df_test.drop(chr, axis=1, inplace=True)
 
@@ -123,8 +107,7 @@ final_col_names = ["duration", "src_bytes", "dst_bytes", "land", "wrong_fragment
              "service_shell","service_smtp","service_sql_net","service_ssh","service_sunrpc","service_supdup","service_systat","service_telnet","service_tftp_u",
              "service_tim_i","service_time","service_urp_i","service_uucp","service_uucp_path","service_vmnet","service_whois","flag_OTH","flag_REJ","flag_RSTO",
              "flag_RSTOS0","flag_RSTR","flag_S0","flag_S1","flag_S2","flag_S3","flag_SF","flag_SH","class_"]
-#print(final_df.head)
 
 final_df = final_df[final_col_names]
-final_df.to_csv('train_enc.csv', index=False)
-#final_df_test.to_csv('test_enc.csv', index=False)
+final_df.to_csv('./Data/train_enc.csv', index=False)
+#final_df_test.to_csv('./Data/test_enc.csv', index=False)

@@ -12,8 +12,8 @@ import matplotlib.pyplot as plt
 
 #train pytorch
 
-trainfile_path = './train_enc.csv'
-testfile_path = './test_enc.csv'
+trainfile_path = './Data/train_enc.csv'
+testfile_path = './Data/test_enc.csv'
 
 col_names = ["duration", "src_bytes", "dst_bytes", "land", "wrong_fragment",
              "urgent", "hot", "num_failed_logins", "logged_in", "num_compromised", "root_shell", "su_attempted", "num_root",
