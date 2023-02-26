@@ -2,14 +2,11 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import roc_curve
-from sklearn.model_selection import StratifiedKFold, train_test_split
+from sklearn.model_selection import train_test_split
 import pandas as pd
 import tqdm
 import copy
 import numpy as np
-import matplotlib.pyplot as plt
-from scapy.all import *
 from classes.Deep import Deep
 
 #train pytorch
