@@ -9,9 +9,23 @@ import numpy as np
 from classes.Deep import Deep
 from scapy.all import *
 
+col_names = np.loadtxt('final_col_names.txt', delimiter=',', dtype=str)
+col_length = len(col_names)-1
+threshold = 0.2
+
+def default_dict():
+    data = {col: [0] for col in col_names}
+    return data
+
 def handle_packet(packet, my_model):
     # Process the packet payload using my_param here
     print(dir(packet))
+    data = default_dict()
+    x_test = data.iloc[:, 0:col_length]
+    x_test = torch.tensor(x_test.values, dtype=torch.float32)
+    y_pred = model(x_test)
+    y_pred = (y_pred > threshold).float() # 0.0 or 1.0
+    print(y_pred)
 
 model_path = './Data/model.pth'
 model = Deep()
