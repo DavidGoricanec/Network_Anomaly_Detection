@@ -111,3 +111,5 @@ final_col_names = ["duration", "src_bytes", "dst_bytes", "land", "wrong_fragment
 final_df = final_df[final_col_names]
 final_df.to_csv('./Data/train_enc.csv', index=False)
 #final_df_test.to_csv('./Data/test_enc.csv', index=False)
+
+np.savetxt('final_col_names.txt', final_col_names, delimiter=',', fmt='%s')
