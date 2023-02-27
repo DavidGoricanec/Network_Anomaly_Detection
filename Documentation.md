@@ -53,3 +53,5 @@ https://machinelearningmastery.com/building-a-binary-classification-model-in-pyt
 https://pandas.pydata.org/docs/
 
 https://pytorch.org/tutorials/
+
+https://www.kaggle.com/code/avk256/nsl-kdd-anomaly-detection
