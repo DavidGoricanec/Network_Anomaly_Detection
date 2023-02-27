@@ -36,9 +36,8 @@ dst_host_serror_rate
 dst_host_srv_serror_rate
 dst_host_rerror_rate
 dst_host_srv_rerror_rate
-Protocol_icmp
-Protocol_tcp
-Protocol_udp
+
+
 service_IRC
 service_X11
 service_Z39_50
