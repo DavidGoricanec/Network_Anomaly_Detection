@@ -1,8 +1,9 @@
 import numpy as np
 
-
 trainfile_path = './Data/train_enc.csv'
 testfile_path = './Data/test_enc.csv'
+
+url = 'https://[REDACTED]/send_anomaly_detection'
 
 col_names = np.loadtxt('final_col_names.txt', delimiter=',', dtype=str)
 col_length = len(col_names)-1

@@ -10,6 +10,7 @@ from classes.Deep import Deep
 from scapy.all import *
 import json
 import config
+import requests
 
 encoded_values = np.loadtxt('./Data/label_encode_values.txt', delimiter=',', dtype=str)
 
@@ -53,6 +54,9 @@ def set_packet_data(packet, data):
     except: 
         print("Could not find service")
     
+    #flags
+    #for simplicity we set the connection to established
+    data['flag_S1'] = json_data['flag']['S1']
     my_print(packet[IP].flags)
     #print(data)
     return data
@@ -68,6 +72,14 @@ def handle_packet(packet, my_model):
         x_test = torch.tensor(x_test.values, dtype=torch.float32)
         y_pred = model(x_test)
         y_pred = (y_pred > config.threshold).float() # 0.0 or 1.0
+        if y_pred == 1:
+            #normal
+            print("normal packet")
+        else:
+            print("anomaly detected!")
+            #send to home server for anomaly alert
+            #sending the packet as a parameter
+            requests.post(config.url,data_arr)
 
 model_path = './Data/model.pth'
 model = Deep()
@@ -77,7 +89,7 @@ partial_handle_packet = functools.partial(handle_packet, my_model=model)
 
 model.eval()
 with torch.no_grad():
-    #print('Start scanning network traffic')
+    print('Start scanning network traffic')
     sniff(prn=partial_handle_packet, store=0)
     # Test out inference with 5 samples
     #for i in range(5):

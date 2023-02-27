@@ -33,6 +33,8 @@ df_train_text_values = df_train[text_columns]
 df_test_text_values = df_test[text_columns]
 
 df_train_text_values_enc = df_train_text_values
+
+#mapping needed later in network_anomaly_detection.py
 le_name_mapping = {}
 for col in text_columns:
     df_train_text_values_enc[col]=le.fit_transform(df_train_text_values[col])
@@ -63,11 +65,6 @@ flag_header=['flag_' + x for x in flag]
 
 colum_headers_train_enc = protocol_header + service_header + flag_header #+ class_header
 
-#service_test_header=sorted(df_test.service.unique())
-#service_header_test =['service_' + x for x in service_test_header]
-
-#colum_headers_test_enc = protocol_header + service_header_test + flag_header #+ class_header
-
 
 df_train_text_values_encenc = enc.fit_transform(df_train_text_values_enc)
 df_cat_data = pd.DataFrame(df_train_text_values_encenc.toarray(),columns=colum_headers_train_enc)
@@ -76,12 +73,7 @@ df_cat_data = pd.DataFrame(df_train_text_values_encenc.toarray(),columns=colum_h
 #df_test_text_values_encenc = enc.fit_transform(df_test_text_values_enc)
 #testdf_cat_data = pd.DataFrame(df_test_text_values_encenc.toarray(),columns=colum_headers_test_enc)
 
-#remove differences
 list_service_train=df_train['service'].tolist()
-#list_service_test= df_test['service'].tolist()
-#diff=list(set(list_service_train) - set(list_service_test))
-#for col in ['service_' + x for x in diff]:
- #   testdf_cat_data[col] = 0
 
 #concat the dataframes
 final_df=df_train.join(df_cat_data)
