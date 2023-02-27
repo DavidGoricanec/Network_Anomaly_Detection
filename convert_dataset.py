@@ -37,8 +37,8 @@ for col in text_columns:
     df_train_text_values_enc[col]=le.fit_transform(df_train_text_values[col])
     le_name_mapping[col] = dict(zip(le.classes_, le.transform(le.classes_)))
 
-with open('./Data/label_encode_values.txt', 'w') as data: 
-      data.write(str(le_name_mapping))
+with open('./Data/label_encode_values.json', 'w') as data: 
+      data.write('"'+str(le_name_mapping)+'"')
 
 #df_test_text_values_enc=df_test_text_values.apply(le.fit_transform)
 

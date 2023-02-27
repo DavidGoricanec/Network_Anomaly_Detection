@@ -8,20 +8,16 @@ import tqdm
 import copy
 import numpy as np
 from classes.Deep import Deep
+import config
 
 #train pytorch
 
-trainfile_path = './Data/train_enc.csv'
-model_path = './Data/model.pth'
-
-col_names = np.loadtxt('final_col_names.txt', delimiter=',', dtype=str)
-col_length = len(col_names)-1
-
-threshold = 0.2
+trainfile_path = config.trainfile_path
+model_path = config.testfile_path
 
 data = pd.read_csv(trainfile_path, header=1)
-x = data.iloc[:, 0:col_length]
-y = data.iloc[:, col_length]
+x = data.iloc[:, 0:config.col_length]
+y = data.iloc[:, config.col_length]
  
 #In convert_dataset.py we only label-encoded the data that also got one hot encoded. This excluded the "class" column 
 encoder = LabelEncoder()

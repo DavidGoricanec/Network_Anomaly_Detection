@@ -10,20 +10,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 from classes.Deep import Deep
 from classes.Wide import Wide 
+import config
 
-#train pytorch
 
-trainfile_path = './Data/train_enc.csv'
-testfile_path = './Data/test_enc.csv'
-
-col_names = np.loadtxt('final_col_names.txt', delimiter=',', dtype=str)
-col_length = len(col_names)-1
-
-threshold = 0.2
+trainfile_path = config.trainfile_path
+model_path = config.testfile_path
 
 data = pd.read_csv(trainfile_path, header=1)
-x = data.iloc[:, 0:col_length]
-y = data.iloc[:, col_length]
+x = data.iloc[:, 0:config.col_length]
+y = data.iloc[:, config.col_length]
  
 #In convert_dataset.py we only label-encoded the data that also got one hot encoded. This excluded the "class" column 
 encoder = LabelEncoder()
@@ -134,5 +129,5 @@ with torch.no_grad():
     # Test out inference with 5 samples
     for i in range(5):
         y_pred = model(X_test[i:i+1])
-        y_pred = (y_pred > threshold).float() # 0.0 or 1.0
+        y_pred = (y_pred > config.threshold).float() # 0.0 or 1.0
         print(f"{X_test[i].numpy()} -> {y_pred[0].numpy()} (expected {y_test[i].numpy()})")
