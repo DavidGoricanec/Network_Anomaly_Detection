@@ -79,7 +79,7 @@ def handle_packet(packet, my_model):
             print("anomaly detected!")
             #send to home server for anomaly alert
             #sending the packet as a parameter
-            requests.post(config.url,data_arr)
+            requests.post(config.url,data_arr, timeout=3)
 
 model_path = './Data/model.pth'
 model = Deep()
