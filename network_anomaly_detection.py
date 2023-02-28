@@ -16,7 +16,7 @@ encoded_values = np.loadtxt('./Data/label_encode_values.txt', delimiter=',', dty
 
 with open('./Data/label_encode_values.json', 'r') as file:
     # Load the JSON data from the file
-    #Check why it only works this way. I've spend way to long to read this json
+    # Check why it only works this way.
     str = str(file.read())
     str = str.replace('"', '')
     str = str.replace("'", '"')
@@ -57,6 +57,7 @@ def set_packet_data(packet, data):
     #flags
     #for simplicity we set the connection to established
     data['flag_S1'] = json_data['flag']['S1']
+    data['src_byte'] = packet[IP].len
     my_print(packet[IP].flags)
     #print(data)
     return data
@@ -77,9 +78,9 @@ def handle_packet(packet, my_model):
             print("normal packet")
         else:
             print("anomaly detected!")
-            #send to home server for anomaly alert
-            #sending the packet as a parameter
-            requests.post(config.url,data_arr, timeout=3)
+            #send to home server for anomaly alert 
+            #sending the packet as a parameter 
+            requests.post(config.url,data_arr, timeout=3) #comment out when raspi is offline
 
 model_path = './Data/model.pth'
 model = Deep()
