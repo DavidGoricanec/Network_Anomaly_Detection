@@ -3,9 +3,9 @@ import numpy as np
 trainfile_path = './Data/train_enc.csv'
 testfile_path = './Data/test_enc.csv'
 
-url = 'https://[REDACTED]/send_anomaly_detection'
+url = 'https://www.davidgoricanec-noip.ddns.net/send_anomaly_detection'
 
-col_names = np.loadtxt('final_col_names.txt', delimiter=',', dtype=str)
+col_names = np.loadtxt('./Data/final_col_names.txt', delimiter=',', dtype=str)
 col_length = len(col_names)-1
 
 threshold = 0.2
@@ -26,6 +26,7 @@ final_col_names = ["duration", "src_bytes", "dst_bytes", "land", "wrong_fragment
              "service_shell","service_smtp","service_sql_net","service_ssh","service_sunrpc","service_supdup","service_systat","service_telnet","service_tftp_u",
              "service_tim_i","service_time","service_urp_i","service_uucp","service_uucp_path","service_vmnet","service_whois","flag_OTH","flag_REJ","flag_RSTO",
              "flag_RSTOS0","flag_RSTR","flag_S0","flag_S1","flag_S2","flag_S3","flag_SF","flag_SH","class_"]
+
 
 ports_mapping= {
     21: 'ftp',
