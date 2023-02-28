@@ -34,12 +34,14 @@ df_test_text_values = df_test[text_columns]
 
 df_train_text_values_enc = df_train_text_values
 
+#Label Encoding 
 #mapping needed later in network_anomaly_detection.py
 le_name_mapping = {}
 for col in text_columns:
     df_train_text_values_enc[col]=le.fit_transform(df_train_text_values[col])
     le_name_mapping[col] = dict(zip(le.classes_, le.transform(le.classes_)))
 
+#Saving Encoded values for later use
 with open('./Data/label_encode_values.json', 'w') as data: 
       data.write('"'+str(le_name_mapping)+'"')
 
@@ -88,5 +90,5 @@ final_df = final_df[config.final_col_names]
 final_df.to_csv('./Data/train_enc.csv', index=False)
 #final_df_test.to_csv('./Data/test_enc.csv', index=False)
 
-np.savetxt('final_col_names.txt', config.final_col_names, delimiter=',', fmt='%s')
+np.savetxt('./Data/final_col_names.txt', config.final_col_names, delimiter=',', fmt='%s')
 print("Saved!")

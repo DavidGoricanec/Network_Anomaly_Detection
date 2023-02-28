@@ -3,7 +3,7 @@
 In this project we will use the NSL-KDD dataset to train our deep-machine-learning algorythm with pytorch. The NSL-KDD dataset is only used to teach/learn the machine about the network traffic.
 
 First we need to install PyTorch. The issue with pytorch is that the current version of python (3.11) is not supported, therefore I had to install the version 3.7 which unfortunatly does not have the performance upgrades that came with 3.11.
-For working with PyTorch I recommend having an NVidia GPU. NVidia GPUs have CUDA-cores which massively boosts PyTorch's performance. For AMd GPU owners (like myself) pytorch can use the ROCm compute platform to make use of the GPU. Unfortunatelly it is not available for Windows.
+For working with PyTorch it is recommended having an NVidia GPU. NVidia GPUs have CUDA-cores which massively boosts PyTorch's performance. For AMd GPU owners (like myself) pytorch can use the ROCm compute platform to make use of the GPU. Unfortunatelly it is not available for Windows.
 
 ![ROCm is available on Windows](./pictures/Pytorch_ROCm.png "PyTorch ROCm")
 
